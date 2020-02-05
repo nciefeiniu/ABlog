@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% if title %}{{ title }}{% else %}专栏{% endif %} - {{admin.site_name}}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/column.css') }}?t=12">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fontello.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='lib/default.css') }}"/>
+    {% endblock %}
+    <style type="text/css">
+        pre{
+            background-color: #ddd;
+            border: none;
+            overflow: auto;
+            padding: 10px 15px;
+            max-height: 637px;
+        }
+        code{
+            padding: 2px 4px;
+            font-size: 90%;
+            color: #c7254e;
+            background-color: #f9f2f4;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div id="header" class="site-header headroom">
+            <!-- PC -->
+            <div class="site-wrap">
+
+                <div class="site-logo">
+                    <a href="/" class="logo">
+                        {% if admin %}{{ admin.site_name }}
+                        {% else %}{{admin.site_name}}{% endif %}
+                    </a>
+                    <span>{% if admin %}{{ admin.site_title }}{% else %}我的博客{% endif %}</span>
+                </div>
+                {% block nav_btn %}
+                {% endblock %}
+
+            </div>
+        </div>
+
+        <div class="site-wrap main-container">
+
+            {% block column_content %}
+            {% endblock %}
+
+        </div>
+
+        {%include 'footer.html'%}
+
+        <div><span id="go-to-top"></span></div>
+    </div>
+{% block script %}
+<script src="{{url_for('static', filename='js/myStorage.js')}}"></script>
+<script src="{{ url_for('static', filename='lib/headroom.min.js') }}"></script>
+<script>
+    // headroom
+    var header = new Headroom(document.getElementById("header"), {
+        tolerance: 0,
+        offset : 70
+    });
+    header.init();
+</script>
+{% endblock %}
+</body>
+</html>

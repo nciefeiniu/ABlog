@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if title %}{{title}}{%else%}Admin{%endif%} | Admin</title>
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css') }}">
+    <link  type="text/css" href="{{ url_for('static', filename='css/admin.css') }}" rel="stylesheet">
+    {% endblock %}
+    <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+    <style type="text/css">
+        .current{
+            color: #1dec06ad !important;
+            font-size: 16px !important;
+        }
+    </style>
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+    <div class="container">
+        <div class="admin-menu">
+            <div class="admin-logo"><a href="/" target="_blank">{{admin.site_name}}</a></div>
+            <div class="menu-scroll">
+                <ul class="menu-list">
+                    {%if current_user.id==1%}
+                    <li class="menu-item"><a href="{{url_for('admin.admin_comments')}}">评论</a></li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">文章</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.write','admin.admin_posts','admin.admin_drafts']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.write') }}">发布文章</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_posts') }}">管理文章</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_drafts') }}">管理草稿</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">专题</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.write_column','admin.admin_columns']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.write_column') }}">添加专题</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_columns') }}">管理专题</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">说说</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.write_shuoshuo','admin.admin_shuos']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.write_shuoshuo') }}">添加说说</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_shuos') }}">管理说说</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">页面</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.add_page','admin.admin_pages']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.add_page') }}">添加页面</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_pages') }}">管理页面</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">链接</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.add_link','admin.admin_links']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.add_link') }}">添加链接</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_links') }}">管理链接</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">插件</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.add_side_box','admin.admin_side_box']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.add_side_box') }}">添加插件</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.admin_side_box') }}">管理插件</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">图片</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.qiniu_picbed','admin.upload_file']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.upload_file') }}">上传至服务器</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.qiniu_picbed') }}">上传至smms</a></dd>
+                        </dl>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" onclick="showChild(this)">站点</a>
+                        <dl class="menu-child" {%if request.endpoint not in ['admin.set_site','admin.change_password']%}style="display: none;"{%endif%}>
+                            <dd class="child-item"><a href="{{ url_for('admin.set_site') }}">编辑站点</a></dd>
+                            <dd class="child-item"><a href="{{ url_for('admin.change_password') }}">更改密码</a></dd>
+                        </dl>
+                    </li>
+                    {%else%}
+                    <li class="menu-item"><a href="{{ url_for('admin.change_password') }}">更改密码</a></li>
+                    {%endif%}
+                    <li class="menu-item"><a href="{{ url_for('admin.posts_buy') }}">付费文章</a></li>
+
+                    <li class="menu-item"><a href="{{url_for('admin.logout')}}">登出</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="admin-main">
+            <div class="body-tabs">
+                <a href="{{ url_for('admin.index') }}">主页</a> / <span>{% block tab %}{% endblock %}</span>
+            </div>
+            <div class="admin-body">
+                <div class="site-wrap">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash-msg">
+                            {{ message }}
+                            <span class="flash-x" onclick="flashEvent()">x</span>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    {% block script %}
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script>
+        function showChild(ele) {
+            var childNav = ele.parentNode.getElementsByClassName('menu-child')[0];
+            if (childNav.style.display === 'none') {
+                childNav.style.display = 'block';
+            } else {
+                childNav.style.display ='none'
+            }
+        }
+        $("a[href='" + window.location.pathname + "']").addClass("current");
+
+    </script>
+    {% endblock %}
+{% else %}
+<div class="admin-menu">
+    <p>
+        <a href="{{url_for('admin.login')}}"><button>请先登录</button></a>
+    </p>
+
+</div>
+{% endif %}
+</body>
+</html>

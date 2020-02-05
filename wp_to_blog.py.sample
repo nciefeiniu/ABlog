@@ -1,0 +1,194 @@
+import pymysql
+import html2markdown
+import re
+import urllib.parse as urllib
+
+source_db=pymysql.connect(host='127.0.0.1',port=3306,user='wp_user',passwd='wp_passwd',db='wp_db',charset='utf8mb4')
+source_cursor=source_db.cursor()
+
+store_db=pymysql.connect(host='127.0.0.1',port=3306,user='new_user',passwd='new_passwd',db='new_db',charset='utf8mb4')
+store_cursor=store_db.cursor()
+
+
+
+def insert_tags():
+    select_sql='select a.term_id,b.name from wp_term_taxonomy a,wp_terms b where a.term_id=b.term_id and a.taxonomy="post_tag"'
+    source_cursor.execute(select_sql)
+    tags=source_cursor.fetchall()
+    for tid,tagname in tags:
+        insert_sql='insert IGNORE into tags values(%s,%s,0)'
+        store_cursor.execute(insert_sql,(tid,tagname));
+        store_db.commit()
+        print(f'插入标签：{tagname}')
+
+def insert_categories():
+    select_sql='select a.term_id,b.name from wp_term_taxonomy a,wp_terms b where a.term_id=b.term_id and a.taxonomy="category"'
+    source_cursor.execute(select_sql)
+    tags=source_cursor.fetchall()
+    for cid,catename in tags:
+        insert_sql='insert IGNORE into category values(%s,%s,0)'
+        store_cursor.execute(insert_sql,(cid,catename));
+        store_db.commit()
+        print(f'插入分类：{catename}')
+
+def get_reply_to_username(comment_ID):
+    sql='select comment_author from wp_comments where comment_ID=%s'
+    source_cursor.execute(sql,(comment_ID,))
+    comments=source_cursor.fetchone()
+    return comments[0]
+
+def insert_post_comments():
+    select_sql='select comment_ID,comment_post_ID,comment_author,comment_author_email,comment_author_url,comment_date,comment_content,comment_parent \
+    from wp_comments where comment_approved=1 and comment_type="" and comment_post_ID!=131 order by comment_ID asc;'
+    source_cursor.execute(select_sql)
+    comments=source_cursor.fetchall()
+    for ID,post_ID,author,author_email,author_url,date,content,parent in comments:
+        parent=int(parent)
+        isReply=0
+        content=content.replace('\n','<br>')
+        if parent>0:
+            isReply=1
+            reply_to=get_reply_to_username(parent)
+            insert_sql=f'insert IGNORE into comments(`id`,comment,author,email,website,isReply,parent_id,disabled,timestamp,post_id,page_id,article_id) \
+            values({ID},%s,"{author}","{author_email}","{author_url}","{isReply}","{parent}",1,"{date}","{post_ID}",null,null)'
+        else:
+            insert_sql=f'insert IGNORE into comments(`id`,comment,author,email,website,isReply,parent_id,disabled,timestamp,post_id,page_id,article_id) \
+            values({ID},%s,"{author}","{author_email}","{author_url}","{isReply}",null,1,"{date}","{post_ID}",null,null)'
+        store_cursor.execute(insert_sql,(content,));
+        store_db.commit()
+        #print(f'插入评论：{content}')
+
+def insert_guessbook_comments():
+    select_sql='select comment_ID,comment_post_ID,comment_author,comment_author_email,comment_author_url,comment_date,comment_content,comment_parent \
+    from wp_comments where comment_approved=1 and comment_type="" and comment_post_ID=131 order by comment_ID asc;'
+    source_cursor.execute(select_sql)
+    comments=source_cursor.fetchall()
+    for ID,post_ID,author,author_email,author_url,date,content,parent in comments:
+        parent=int(parent)
+        isReply=0
+        content=content.replace('\n','<br>')
+        if parent>0:
+            isReply=1
+            reply_to=get_reply_to_username(parent)
+            insert_sql=f'insert IGNORE into comments(`id`,comment,author,email,website,isReply,parent_id,disabled,timestamp,post_id,page_id,article_id) \
+            values({ID},%s,"{author}","{author_email}","{author_url}","{isReply}","{parent}",1,"{date}",null,1,null)'
+        else:
+            insert_sql=f'insert IGNORE into comments(`id`,comment,author,email,website,isReply,parent_id,disabled,timestamp,post_id,page_id,article_id) \
+            values({ID},%s,"{author}","{author_email}","{author_url}","{isReply}",null,1,"{date}",null,1,null)'
+        store_cursor.execute(insert_sql,(content,));
+        store_db.commit()
+        #print(f'插入评论：{content}')
+
+
+
+def get_tags(pid):
+    select_sql=f'select a.name from wp_terms a,wp_term_relationships b,wp_term_taxonomy c where a.term_id=b.term_taxonomy_id and b.term_taxonomy_id=c.term_taxonomy_id and c.taxonomy="post_tag" and b.object_id={pid};'
+    source_cursor.execute(select_sql)
+    tags=source_cursor.fetchall()
+    tags=','.join([i[0] for i in tags])
+    return tags
+
+def get_category(pid):
+    select_sql=f'select a.term_id from wp_terms a,wp_term_relationships b,wp_term_taxonomy c where a.term_id=b.term_taxonomy_id and b.term_taxonomy_id=c.term_taxonomy_id and c.taxonomy="category" and b.object_id={pid};'
+    source_cursor.execute(select_sql)
+    cate=source_cursor.fetchone()
+    catid=cate[0]
+    return catid
+
+def post_exists(pid):
+    sql=f'select count(1) from posts where `id`={pid}'
+    store_cursor.execute(sql)
+    d=store_cursor.fetchone()[0]
+    return int(d)==0
+
+
+def convert2markdown(html):
+    html=html.replace('/wp-content/uploads','/static/upload')
+    html=re.sub('http(s|)://(www.|)abbeyok.com/','/',html)
+    html=re.sub('rel=".*?"','',html)
+    html=re.sub(' target=".*?"','',html)
+    html=re.sub(' class=".*?"','',html)
+    # html=re.sub(' height=".*?"','',html)
+    # html=re.sub(' width=".*?"','',html)
+    html=re.sub('<(/|)span.*?>','',html)
+    html=html.replace('<pre><code>','```\n')
+    html=html.replace('</code></pre>','\n```')
+    html=html.replace('<code>','`')
+    html=html.replace('</code>','`')
+    html=html.replace('<pre>','```\n')
+    html=html.replace('</pre>','\n```')
+    html=re.sub('<p.*?>','<p>',html)
+    html=html2markdown.convert(html)
+    html=urllib.unquote(html)
+    html=html.replace('\\`','`')
+    html=html.replace('&gt;','>')
+    html=html.replace('&lt;','<')
+    html=html.replace('&amp;','&')
+    html=html.replace('&quot;','"')
+    html=html.replace('&nbsp;',' ')
+    return html
+
+
+def insert_post(ID,post_title,post_content,post_status,post_date,post_modified,tags,category_id):
+    post_content=convert2markdown(post_content)
+    post_status=False if post_status=='publish' else True
+    post_date=post_date.strftime('%Y-%m-%d')
+    post_modified=post_modified.strftime('%Y-%m-%d')
+    insert_sql=f'insert IGNORE into posts(`id`,title,url_name,timestamp,body,draft,disable,tags,category_id,lastModTime) \
+        values(%s,%s,%s,%s,%s,%s,"0",%s,%s,%s)'
+    store_cursor.execute(insert_sql,(ID,post_title,ID,post_date,post_content,post_status,tags,category_id,post_modified))
+    store_db.commit()
+
+
+
+def insert_posts():
+    get_sql='select ID,post_title,post_content,post_status,post_date,post_modified from wp_posts where post_type="post" and post_status="publish";'
+    source_cursor.execute(get_sql)
+    source_posts=source_cursor.fetchall()
+    for ID,post_title,post_content,post_status,post_date,post_modified in source_posts:
+        if post_exists(ID):
+            tags=get_tags(ID)
+            cid=get_category(ID)
+            insert_post(ID,post_title,post_content,post_status,post_date,post_modified,tags,cid)
+            print(f'插入文章：{post_title}')
+        else:
+            print(f'已存在文章：{post_title}')
+
+def update_view():
+    get_sql='select post_id,meta_value from wp_postmeta where meta_key="views"'
+    source_cursor.execute(get_sql)
+    views=source_cursor.fetchall()
+    for pid,viewnum in views:
+        insert_sql=f'insert ignore into views(`count`,`type`,relationship_id) values({viewnum},"post",{pid})'
+        store_cursor.execute(insert_sql);
+        store_db.commit()
+        print(f'更新阅读次数：{pid}：{viewnum}')
+
+def insert_links():
+    get_sql='select link_url,link_name from wp_links'
+    source_cursor.execute(get_sql)
+    links=source_cursor.fetchall()
+    for url,name in links:
+        insert_sql='insert ignore into sitelinks(link,name,isFriendLink,isGreatLink,info) values(%s,%s,1,0,"")'
+        store_cursor.execute(insert_sql,(url,name));
+        store_db.commit()
+        print(f'插入链接：{url}')
+
+
+
+def main():
+    print('插入标签')
+    insert_tags()
+    print('插入分类')
+    insert_categories()
+    print('插入文章')
+    insert_posts()
+    print('插入评论')
+    insert_post_comments()
+    insert_guessbook_comments()
+    print('插入友链')
+    insert_links()
+    print('更新阅读次数')
+    update_view()
+
+main()

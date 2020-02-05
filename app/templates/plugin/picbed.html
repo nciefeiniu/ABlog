@@ -1,0 +1,51 @@
+{% extends "admin.html" %}
+{% import "_pagination.html" as page %}
+
+{% block tab %}七牛图床{% endblock %}
+{% block content %}
+<script src="{{ url_for('static', filename='js/picbed.js') }}?t={{time}}"></script>
+<div class="pic-bed">
+    <div class="upload-img">
+        共 {{ counts }} 张图片
+        <button onclick="showIpt()" id="upload-btn">上传</button>
+    </div>
+    <div class="upload-input">
+        <form action="{{ url_for('admin.qiniu_picbed') }}" method="post" enctype="multipart/form-data">
+            <p><input id="md-file" type="file" name="file" accept="image/*"></p>
+            <p><input id="submit" type="submit" value="上传" class="submit-btn"></p>
+        </form>
+    </div>
+    <div class="img-list">
+        {% if images %}
+        {% for item in images %}
+        <div class="img-item">
+            <div class="img-name">{{ item.name }}</div>
+            <a href="{{ item.url }}" target="_blank">
+                <img class="qiniu-img" src="{{ item.url }}" alt="{{ item.name }}">
+            </a>
+            <div class="img-desc">
+                <p>外链：<span class="img-link">{{ item.url }}</span></p>
+                <p></p>
+            </div>
+
+            <div class="img-btn">
+                <button onclick="deleteImg('{{item.hash}}')" class="del-btn">删除</button>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="post-page site-box">
+    <ul class="pages">
+        {{ page.pages(pagination, 'admin.qiniu_picbed') }}
+    </ul>
+</div>
+{% endblock %}
+
+{% block script %}
+{{ super() }}
+
+{% endblock %}

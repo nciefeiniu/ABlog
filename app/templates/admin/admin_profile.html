@@ -1,0 +1,46 @@
+{% extends "admin.html" %}
+{% block tab %}编辑信息{% endblock %}
+{% block content %}
+<style type="text/css">
+    .profile-avatar {
+        width: 65px;
+        height: 65px;
+        border-radius: 6px;
+        border: 2px solid rgba(255, 255, 255, 0.44);
+    }
+
+    .paypic {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<div class="admin-profile">
+    <h2>管理员信息设置</h2>
+    <div class="profile-ipt">
+        <form action="{{url_for('admin.set_site')}}" method="post" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+
+            <img class="profile-avatar" src="{{url_for('static', filename='images/touxiang.jpg')}}" alt="author">
+            <p>头像：{{form.photo()}}</p>
+
+            <img class="profile-avatar" src="{{url_for('static', filename='favicon.ico')}}" alt="author">
+            <p>网站图标：{{form.ico()}}</p>
+
+            <p>姓名：{{form.username()}}</p>
+            <p>简介：{{form.profile()}}</p>
+            <p>网站名：{{form.site_name()}}</p>
+            <p>网站标题：{{form.site_title()}}</p>
+            <p>网站域名：{{form.site_url()}}</p>
+            <p>sm.ms秘钥：{{form.token(placeholder='注册sm.ms可获得')}}</p>
+            <p>统计代码：{{form.tongji()}}</p>
+            <p>备案信息：{{form.record_info(placeholder="选填")}}</p>
+            <p><input class="but" type="submit" value="确定"></p>
+        </form>
+        <i>关于sm.ms秘钥：
+            <p>未登录用户目前的限制为每分钟 10 张图片，每小时 20 张图片</p>
+            <p>注册用户的限制为每分钟 20 张图片，每小时 100 张图片</p>
+            <p>填写秘钥可提高限制</p>
+        </i>
+    </div>
+</div>
+{% endblock %}

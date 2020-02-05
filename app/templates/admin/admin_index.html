@@ -1,0 +1,42 @@
+{% extends "admin.html" %}
+{% block content %}
+<h2>欢迎登陆，<B>{{current_user.login_name}}</B>，您有<B>{{current_user.coins}}</B>金币</h2>
+
+{%if current_user.id==1%}
+<link rel="stylesheet" type="text/css" href="/static/css/fontello.css">
+<h3>图标选择</h3>：<br>
+
+<code>&lt;i class="demo-icon icon-link"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-link"></i><br>
+<code>&lt;i class="demo-icon icon-tags"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-tags"></i><br>
+<code>&lt;i class="demo-icon icon-music"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-music"></i><br>
+<code>&lt;i class="demo-icon icon-heart"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-heart"></i><br>
+<code>&lt;i class="demo-icon icon-heart-empty"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-heart-empty"></i><br>
+<code>&lt;i class="demo-icon icon-mail"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-mail"></i><br>
+<code>&lt;i class="demo-icon icon-search"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-search"></i><br>
+<code>&lt;i class="demo-icon icon-star"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-star"></i><br>
+<code>&lt;i class="demo-icon icon-star-empty"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-star-empty"></i><br>
+<code>&lt;i class="demo-icon icon-user"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-user"></i><br>
+<code>&lt;i class="demo-icon icon-video"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-video"></i><br>
+<code>&lt;i class="demo-icon icon-picture"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-picture"></i><br>
+<code>&lt;i class="demo-icon icon-eye"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-eye"></i><br>
+<code>&lt;i class="demo-icon icon-bookmark"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-bookmark"></i><br>
+<code>&lt;i class="demo-icon icon-comment"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-comment"></i><br>
+<code>&lt;i class="demo-icon icon-thumbs-up"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-thumbs-up"></i><br>
+<code>&lt;i class="demo-icon icon-trash-empty"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-trash-empty"></i><br>
+<code>&lt;i class="demo-icon icon-calendar"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-calendar"></i><br>
+<code>&lt;i class="demo-icon icon-book"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-book"></i><br>
+<code>&lt;i class="demo-icon icon-home"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-home"></i><br>
+<code>&lt;i class="demo-icon icon-globe"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-globe"></i><br>
+<code>&lt;i class="demo-icon icon-github-circled"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-github-circled"></i><br>
+<code>&lt;i class="demo-icon icon-rss"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-rss"></i><br>
+<code>&lt;i class="demo-icon icon-mail-alt"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-mail-alt"></i><br>
+<code>&lt;i class="demo-icon icon-comment-empty"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-comment-empty"></i><br>
+<code>&lt;i class="demo-icon icon-folder-empty"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-folder-empty"></i><br>
+<code>&lt;i class="demo-icon icon-doc-text-inv"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-doc-text-inv"></i><br>
+<code>&lt;i class="demo-icon icon-thumbs-up-alt"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-thumbs-up-alt"></i><br>
+<code>&lt;i class="demo-icon icon-box"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-box"></i><br>
+<code>&lt;i class="demo-icon icon-weibo"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-weibo"></i><br>
+<code>&lt;i class="demo-icon icon-share"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-share"></i><br>
+<code>&lt;i class="demo-icon icon-trash"&gt;&lt;/i&gt;</code>:<i class="demo-icon icon-trash"></i><br>
+{%endif%}
+{% endblock %}

@@ -1,0 +1,117 @@
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+
+class Config(object):
+    CSRF_ENABLED = True
+    SECRET_KEY = '\xf95\xc5L\x12_\x97\xa5\xb3|ll\x0f\xca\x84\x9a'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+
+
+    POSTS_PER_PAGE = 10
+    ADMIN_POSTS_PER_PAGE = 20
+    ACHIVES_POSTS_PER_PAGE = 20
+    SEARCH_POSTS_PER_PAGE = 15
+    COMMENTS_PER_PAGE = 10
+    ADMIN_COMMENTS_PER_PAGE = 50
+
+    UPLOAD_PATH = './app/static/upload/'
+
+    #数据储存方式mysql/sqlite
+    STORE_METHOD='mysql'
+
+    # 数据库配置
+    MYSQL_USER = 'mysql_user'
+    MYSQL_PASSWORD = 'mysql_passwd'
+    MYSQL_DB = 'mysql_db'
+    MYSQL_DATABASE_CHARSET='utf8mb4'
+
+    # 博客信息
+    # 管理员姓名
+    ADMIN_NAME = 'Abbey'
+    # 登录密码
+    ADMIN_PASSWORD = 'Admin'
+    # 博客名
+    SITE_NAME = '一个人的公交'
+    # 博客标题
+    SITE_TITLE = 'My Blog'
+    # 管理员简介
+    ADMIN_PROFILE = '数据分析兼职Python开发'
+    #管理员邮箱
+    ADMIN_MAIL = 'abbeyok@gmail.com'
+
+    # RSS站点信息
+    # 站点协议
+    WEB_PROTOCOL = 'https'
+    # 站点域名
+    WEB_URL = 'www.abbeyok.com'
+    # 站点创建时间
+    WEB_START_TIME = '2018-06-05'
+    # 显示条数
+    RSS_COUNTS = 10
+
+    # 搜索最小字节
+    WHOOSHEE_MIN_STRING_LEN = 1
+
+    # cache 使用 Redis 数据库缓存配置
+    CACHE_TYPE = 'redis'
+    CACHE_REDIS_HOST = '127.0.0.1'
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_DB = '0'
+    CACHE_REDIS_PASSWORD = ''
+
+    #payjs配置
+    PAYJS_MCHID='' #payjs商户号
+    PAYJS_KEY='' #payjs密钥
+
+    @staticmethod
+    def init_app(app):
+        pass
+
+
+class DevelopmentConfig(Config):
+    if Config.STORE_METHOD=='mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
+        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    else:
+        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    DEBUG = True
+
+
+class TestingConfig(Config):
+    if Config.STORE_METHOD=='mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
+        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    else:
+        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    TESTING = True
+
+
+class ProductionConfig(Config):
+    if Config.STORE_METHOD=='mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
+        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    else:
+        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    DEBUG = False
+
+
+class DockerConfig(ProductionConfig):
+    if Config.STORE_METHOD=='mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
+        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    else:
+        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    DEBUG = False
+    CACHE_REDIS_HOST = 'cache'
+
+
+config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
+    'docker': DockerConfig,
+    'default': ProductionConfig
+}

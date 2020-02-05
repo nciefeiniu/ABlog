@@ -1,0 +1,16 @@
+{% extends "admin.html" %}
+{% import "_pagination.html" as page %}
+{% block tab %}购买的文章{% endblock %}
+{% block content %}
+<div class="admin-post">
+    <ul>
+        {% for post in posts %}
+        <li>
+            <a class="article-title" href="{{url_for('main.post', pid=post.id)}}" target="_blank">
+                {{ post.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

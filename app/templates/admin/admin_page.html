@@ -1,0 +1,19 @@
+{% extends "admin.html" %}
+{% block tab %}管理页面{% endblock %}
+{% block content %}
+<div class="admin-post">
+    <ul>
+        {% for page in pages %}
+        <li>
+            <a class="article-title" href="{{url_for('admin.edit_page',id=page.id)}}">
+                {{ page.title }}
+            </a>
+            <button onclick="firm('{{url_for('admin.delete_page',id=page.id)}}')" class="delete-btn">删除</button>
+            <a href="{{url_for('admin.edit_page',id=page.id)}}">
+                <button class="edit-btn">编辑</button>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

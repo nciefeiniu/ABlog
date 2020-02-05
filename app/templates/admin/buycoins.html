@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+
+    <title>{% if title %}{{title}}{%else%}Admin{%endif%} | Admin</title>
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css') }}">
+    <link  type="text/css" href="{{ url_for('static', filename='css/admin.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+    <div class="container">
+        <div class="site-wrap">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+                <div class="flash-msg">
+                    {{ message }}
+                    <span class="flash-x" onclick="flashEvent()">x</span>
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <div class="admin-login">
+            <h3>购买金币(1元=10金币)</h3>
+            <div class="login-input">
+                <form action="{{ url_for('admin.buycoins') }}" method="post">
+                {{form.hidden_tag()}}
+                <p>选择购买金额：{{form.coins(class="login")}}</p>
+                <p><input class="but" type="submit" value="购买"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

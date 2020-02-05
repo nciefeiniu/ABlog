@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
+
+    <title>{% if title %}{{title}}{%else%}Admin{%endif%} | Admin</title>
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css') }}">
+    <link  type="text/css" href="{{ url_for('static', filename='css/admin.css') }}" rel="stylesheet">
+    {% endblock %}
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="admin-login" id="pc">
+            <h3>微信扫码支付</h3>
+            <div class="login-input" >
+                <img src="http://qr.topscan.com/api.php?text={{url}}">
+            </div>
+        </div>
+        <div class="admin-login" id="wap">
+            <h3>微信支付</h3>
+            <div class="login-input">
+            <p>点击下方输入框自动复制</p><p><input class="login" type="text" id="share" value="{{url|safe}}" onclick="copyUrl('share')"/>
+            </div>
+            <h3>支付流程</h3>
+            <p><i>点击地址自动复制地址 --> </i></p><p><i>打开微信 --> </i></p><p><i>将地址发送给“文件传输助手” --> </i></p><p><i>微信点击打开支付</i></p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function copyUrl(eid) {
+            var Url=document.getElementById(eid);
+            Url.select();
+            document.execCommand("Copy");
+            $('.alert').css('display', '');
+            $('#error_msg').html('复制成功');
+        }
+        function IsPC() {
+               var userAgentInfo = navigator.userAgent;
+               var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");
+               var flag = true;
+               for (var v = 0; v < Agents.length; v++) {
+                    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                        flag = false;
+                        break;
+                     }
+               }
+               return flag;
+        }
+        var ispc=IsPC();
+        if(ispc){
+            s=document.getElementById('wap');
+            var parentObj = s.parentNode;//获取div的父对象
+            parentObj.removeChild(s);
+
+        }
+        else{
+            s=document.getElementById('pc');
+            var parentObj = s.parentNode;//获取div的父对象
+            parentObj.removeChild(s);
+
+        }
+
+        function Refresh(){
+            var defer = $.Deferred();
+            var getTimestamp=new Date().getTime();
+            $.ajax({
+                type: "GET",
+                url: "{{url_for('admin.pay_status',tradeid=tradeid)}}?t="+getTimestamp,
+                // data: { tradeid: tradeid },
+                // async: false, //使用同步的方式,true为异步方式
+                dataType: "json",
+                success: function(data) {
+                    defer.resolve(data);
+                    if (data.status) {
+                        need_refresh=false
+                    }
+                }
+            });
+        }
+
+        var interval_id=null;
+        var need_refresh=true;
+        function AutoRefresh(){
+            if (interval_id){
+                window.clearInterval(interval_id);
+            }
+            interval_id = window.setInterval(function(){
+                if(need_refresh){
+                    Refresh();
+                }
+                else{
+                    window.location.href="{{frompage}}";
+                }
+            },2000);
+        }
+        AutoRefresh();
+    </script>
+</body>
+</html>

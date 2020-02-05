@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>一个人的公交</title>
+  <subtitle>Abbey's Blog</subtitle>
+  <link rel="alternate" type="text/html" href="https://www.abbeyok.com/"/>
+  <link href="https://www.abbeyok.com/atom.xml" rel="self"/>
+  <id>tag:https://www.abbeyok.com,2018-06-05://1</id>
+  <updated>2019-08-13T00:00:00Z</updated>
+
+  <entry>
+    <title>Abbey的博客正式启用【Flask Blog】</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/394"/>
+    <id>tag:https://www.abbeyok.com,2019://1.394</id>
+    <published>2019-08-08T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>Abbey的博客正式启用【Flask Blog】</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="blog" scheme="https://www.abbeyok.com/category/blog"/>
+    <content type="html"><![CDATA[<p>Abbey的博客创建一年多，从一开始是GitHub Pages，到wordpress，最终还是走向了自己用flask写博客程序的路</p>
+<!--more-->
+
+<h2>为啥要自己写程序？</h2>
+<ol>
+<li>Abbey只会Python。使用其他的程序，Abbey都无法进行开发</li>
+<li>近期Abbey想用<strong><a href="https://payjs.cn/ref/KZVNLZ">payjs</a></strong>给博客加上<strong>付费阅读</strong>的功能，但是相关的插件要么不符合要求，要么是收费的
+综合来说，就是想要一个更适合自己的博客程序</li>
+</ol>
+<h2>这个程序是自己写的吗？</h2>
+<p>不完全是！</p>
+<p>从头写一个博客程序太耗时间了，因此Abbey找了一个前端相对满意的Flask写的开源博客项目，再进行二次开发</p>
+<p><em>原项目：https://github.com/Blackyukun/YuBlog</em></p>
+<h2>二开的程序有什么不同？</h2>
+<p>和原程序对比，Abbey主要做了以下改善和新增：</p>
+<ol>
+<li>
+<p>修复了一些bug。主要是代码上的bug，没啥说的</p>
+</li>
+<li>
+<p>完善一些后台功能。比如：加上多用户系统</p>
+</li>
+<li>
+<p>最主要的：加上了基于<strong><a href="https://payjs.cn/ref/KZVNLZ">payjs</a></strong>的<strong>付费阅读</strong>功能。<a href="https://www.abbeyok.com/archives/393">点击体验一把</a></p>
+</li>
+</ol>
+<h2>开发过程中什么最困难？</h2>
+<p>其实这个开源的博客程序代码逻辑还是很清晰的，和Abbey平时写Flask程序的思路基本一致，因此熟悉代码还是很容易的。</p>
+<p>整个过程中，最困难的有：</p>
+<ul>
+<li>
+<p><strong>迁移数据</strong>。</p>
+<p>迁移数据是其中一个比较重要的环节，为了将wordpress的数据迁移出来，还专门写了一个迁移脚本。</p>
+<p>迁移博客：标签、分类、评论、还有<strong>文章</strong></p>
+<p>其中<strong>文章</strong>迁移花费了最多的时间，因此wordpress储存的是html，我需要将html转为markdown格式再储存。</p>
+<p>而且还不能直接使用现有的<code>html2markdown</code>库进行转换，因为有些标签无法转换，得特殊处理。</p>
+<p>最后文章迁移是通过：脚本+人工修正的方式才搞定</p>
+</li>
+<li>
+<p><strong>付费阅读</strong>
+    因原来的程序没有这个功能，因此需要完全自己写这个功能。</p>
+<p>这里通过<strong>金币购买</strong>的方式实现，即用户需要购买积分，然后不同的付费文章设置不同的金币条件，用户可自行购买金币并付费阅读。</p>
+<p>整个付费阅读功能包括了：<strong>金币购买、后台创建订单、后台接受结果、付款页轮训结果、文章页购买</strong>等功能</p>
+<p><a href="https://www.abbeyok.com/archives/393">点击体验一把</a></p>
+</li>
+</ul>
+<h2>预览</h2>
+<h3>前端</h3>
+<p><img alt="1.png" src="https://i.loli.net/2019/08/08/cvQZYT6ou7kEaJj.png" /></p>
+<h3>后台</h3>
+<p><img alt="2.png" src="https://i.loli.net/2019/08/08/yvqpJQOUaRCdlsW.png" />
+<em>ps. 别问我后台首页的图标干嘛的</em></p>
+<h3>文章编辑</h3>
+<p><img alt="3.png" src="https://i.loli.net/2019/08/08/AoXEYDnCmdbzH8K.png" /></p>
+<h3>付费阅读功能</h3>
+<p><img alt="4.png" src="https://i.loli.net/2019/08/08/26Wg5FMIXCsEn7T.png" /></p>
+<h2>开源否？</h2>
+<p><a href="https://github.com/abbeyokgo/ABlog">https://github.com/abbeyokgo/ABlog</a></p>]]></content>
+  </entry>
+  <entry>
+    <title>基于Flask写的付费阅读博客程序</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/393"/>
+    <id>tag:https://www.abbeyok.com,2019://1.393</id>
+    <published>2019-08-08T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>基于Flask写的付费阅读博客程序</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="付费内容" scheme="https://www.abbeyok.com/category/付费内容"/>
+    <content type="html"><![CDATA[<p>之前Abbey就有做付费阅读/付费插件的想法，但是实在不会wordpress开发，于是只能自己用Flask写了
+<!--more--></p>
+<p><em>ps. 本博客程序基于<a href="https://github.com/Blackyukun/YuBlog">https://github.com/Blackyukun/YuBlog</a>二次开发，完善了很多的逻辑和功能</em></p>
+<p>以上为测试免费内容</p>
+<p><strong>本文章售价1元</strong></p>
+<p><strong>购买之后可获得“一个教训”</strong></p>
+<!--free-->
+
+<h2>这是教训</h2>]]></content>
+  </entry>
+  <entry>
+    <title>Abbey的第一个宝塔插件-GFW检测</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/392"/>
+    <id>tag:https://www.abbeyok.com,2019://1.392</id>
+    <published>2019-08-02T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>Abbey的第一个宝塔插件-GFW检测</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="开源" scheme="https://www.abbeyok.com/category/开源"/>
+    <content type="html"><![CDATA[<h2>为什么写宝塔插件？</h2>
+<ol>
+<li>宝塔是Flask写的面板，而Abbey会Flask</li>
+<li>宝塔的用户量巨大，市场也很大</li>
+<li>Abbey希望通过宝塔插件获取一些收益。当然收益是长久的事情，前期一定会写一些有用的小工具提供给大家使用</li>
+</ol>
+<h2>第一个插件-GFW检测</h2>
+<p>顾名思义，这个个检测域名是否被GFW墙的小工具</p>
+<h2>有什么用？</h2>
+<p>通过本插件，可以检测当前宝塔下所有域名的状态</p>
+<h2>如何使用</h2>
+<ol>
+<li>首先，宝塔需要是6.0版本以上，且支持导入第三方插件才行</li>
+<li>因Abbey没有上架到官方插件库，因此需要自己导入，步骤是：</li>
+<li>下载插件：<a href="http://t.cn/AiYX6a2u">http://t.cn/AiYX6a2u</a></li>
+<li>打开__宝塔-软件商店-第三方应用-然后选择“导入插件”-选择下载的zip包
+<strong>- 安装之后，打开</strong>“GFW检测 1.0”-操作日志__即可查看到每个域名的状态</li>
+</ol>
+<h2>预览</h2>
+<p><img alt="Snipaste_2019-08-02_18-13-02.png" src="https://i.loli.net/2019/08/02/5d440cc12987143271.png" title="Snipaste_2019-08-02_18-13-02.png" />
+<img alt="Snipaste_2019-08-02_18-12-47.png" src="https://i.loli.net/2019/08/02/5d440cc11a03985542.png" title="Snipaste_2019-08-02_18-12-47.png" /><img alt="" src="https://i.loli.net/2019/08/02/5d44106fa03c488514.png" /></p>]]></content>
+  </entry>
+  <entry>
+    <title>PyOne终于支持PDF在线预览了</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/388"/>
+    <id>tag:https://www.abbeyok.com,2019://1.388</id>
+    <published>2019-07-31T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>PyOne终于支持PDF在线预览了</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="PyOne" scheme="https://www.abbeyok.com/category/PyOne"/>
+    <content type="html"><![CDATA[<p><strong>测试一下</strong></p>
+<iframe height="600px" src="https://pyone.me/A:/sample-master.pdf?action=iframe" width="800px"></iframe>
+
+<p>初次安装/升级PyOne，请参看wiki：<a href="https://wiki.pyone.me">https://wiki.pyone.me</a></p>]]></content>
+  </entry>
+  <entry>
+    <title>2019.07.24：PyOne一键安装脚本适应Centos7、Debian8+、Ubuntu16+</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/382"/>
+    <id>tag:https://www.abbeyok.com,2019://1.382</id>
+    <published>2019-07-24T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>2019.07.24：PyOne一键安装脚本适应Centos7、Debian8+、Ubuntu16+</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="PyOne" scheme="https://www.abbeyok.com/category/PyOne"/>
+    <content type="html"><![CDATA[<p><strong>初次安装流程：</strong></p>
+<ol>
+<li>安装宝塔，参考：https://www.bt.cn/bbs/thread-19376-1-1.html</li>
+<li>进入宝塔安装：MongoDB、Redis（必须提前安装，不然无法继续）</li>
+<li>下载脚本：git clone https://github.com/abbeyokgo/PyOne.git</li>
+<li>进入PyOne目录：cd PyOne</li>
+<li>运行一键安装脚本：bash install.sh，安装过程中会输入：<strong>MongoDB端口号(27017)、Redis端口号(6379)、Aria2密钥、PyOne后台密码</strong></li>
+<li>访问ip:34567，输入PyOne后台密码之后，继续安装</li>
+</ol>
+<p><strong>安装视频教程</strong></p>
+<iframe allowfullscreen="allowfullscreen" frameborder="0" height="400" src="https://pyone.me/A:/PyOne安装视频20190724.mp4?action=iframe" width="600">﻿</iframe>
+
+<p><strong>感谢萌鼠博客：https://www.moerats.com/archives/806/</strong></p>]]></content>
+  </entry>
+  <entry>
+    <title>【网站解析】搞定中国商标网信息爬取</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/369"/>
+    <id>tag:https://www.abbeyok.com,2019://1.369</id>
+    <published>2019-06-26T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>【网站解析】搞定中国商标网信息爬取</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="技术解析" scheme="https://www.abbeyok.com/category/技术解析"/>
+    <content type="html"><![CDATA[<p>Abbey偶然间接到一个需求，那就是批量爬取<a href="http://wsjs.saic.gov.cn">中国商标网</a>的信息，不得不说，作为一个政府网站，反爬虫能做得那么好的真是少见~~</p>
+<!--more-->
+
+<h2>中国商标网有哪些反爬虫？</h2>
+<h3>js混淆&amp;js加密</h3>
+<p>点击进入商标网的主页（<a href="http://wsjs.saic.gov.cn">http://wsjs.saic.gov.cn</a>），就会给跳转到一个带加密参数的链接，</p>
+<p><img alt="" height="28" src="/static/upload/2019/06/a5d2b5178435dc5.png" width="1191"/></p>
+<p>看请求的话，应该是先请求了<a href="http://wsjs.saic.gov.cn/4QbVtADbnLVIc/c.FxJzG50F.0a1397e.js?D9PVtGL=0a1397">一个js</a>，这个js再计算一个加密值然后自动跳转到带加密参数的链接</p>
+<p><img alt="" height="216" src="/static/upload/2019/06/88595149261a948.png" width="1502"/></p>
+<p>而这个js内容又多恶心，请自行打开体会。</p>
+<p>仅仅是这一步就把Abbey难倒了，而且Abbey并没有信心去对商标网的js进行反混淆和解密</p>
+<h3>未知的反爬虫措施</h3>
+<p>上面的问题，可以通过selenium+chromedriver解决，但是实际用selenium的时候就会发现...</p>
+<p><img alt="" height="334" src="/static/upload/2019/06/3527470240f5ff8.png" width="687"/></p>
+<p>TM...连selenium都不行？经过Abbey的分析，觉得是商标网能够识别出是selenium，因此这里就GG了。</p>
+<p>解决办法呢？</p>
+<p>一是通过修改chromedriver，将selenium的信息隐藏</p>
+<p>二则是使用firefox，因为firefox没有带selenium的信息</p>
+<p>最终Abbey使用firefox继续攻防</p>
+<h3>动作识别</h3>
+<p>使用selenium+firefox是可以获取到信息，但是爬了一两个商标信息之后，又会触发上面一样的错误信息，这里Abbey分析是因为商标网会判断鼠标、键盘的路径，然后如果没有识别到“人”的行为特征，就会触发错误。</p>
+<p>这个时候就只能尽量模仿真人的行为特征。</p>
+<p>Abbey没有做大批量测试，就测试了大概十几个数据，没有触发错误，所以就没有继续研究了。</p>
+<p>爬虫运行效果（headless）：<a href="https://showmore.com/zh/u/5g013n4">https://showmore.com/zh/u/5g013n4</a></p>
+<p>爬虫运行效果（带浏览器）：<a href="https://showmore.com/zh/u/mqhovsj">https://showmore.com/zh/u/mqhovsj</a></p>
+<p>ps. 代码不会开源</p>]]></content>
+  </entry>
+  <entry>
+    <title>【工具】将wordpress的新浪图片下载到本地并自动替换</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/358"/>
+    <id>tag:https://www.abbeyok.com,2019://1.358</id>
+    <published>2019-05-20T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>【工具】将wordpress的新浪图片下载到本地并自动替换</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="开源" scheme="https://www.abbeyok.com/category/开源"/>
+    <content type="html"><![CDATA[<p>新浪图床开始防盗链已经好几个月了，一开始Abbey没有太当回事，然后前几周Abbey发现我的博客的图片也开始403了，好吧，替换新浪图床势在必行！</p>
+<!--more-->
+
+<p>于是就写了个脚本，将wordpress文章中的图片下载下来，并自动替换。</p>
+<p>脚本地址：<a href="https://gist.github.com/abbeyokgo/6559d888ad178c4bb806b5541a90939b">https://gist.github.com/abbeyokgo/6559d888ad178c4bb806b5541a90939b</a></p>
+<h3>使用说明</h3>
+<ol>
+<li><strong>安装好<code>Python2.7</code></strong>。如果是linux系统，应该可以免去该步骤</li>
+<li><strong>安装依赖包</strong>：</li>
+</ol>
+<div class="highlight"><pre>pip install requests
+pip install pymysql
+</pre></div>
+
+
+<p>3.<strong> 将脚本放到wordpress目录下</strong>。比如我的是:<code>/www/wwwroot/www.abbeyok.com</code>
+4. <strong>运行</strong>：</p>
+<div class="highlight"><pre>python wordpress_sina_image_replace.py
+</pre></div>
+
+
+<p>运行完之后，应该就没问题了！！！</p>
+<p>如果有问题，可以通过备份的数据库backup.sql还原回去！</p>]]></content>
+  </entry>
+  <entry>
+    <title>【pyenv】Python多版本控制神器-pyenv使用</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/352"/>
+    <id>tag:https://www.abbeyok.com,2019://1.352</id>
+    <published>2019-05-16T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>【pyenv】Python多版本控制神器-pyenv使用</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="Python" scheme="https://www.abbeyok.com/category/Python"/>
+    <content type="html"><![CDATA[<p>之前Abbey写过《<a href="/archives/34">centos6升级Python</a>》，但是只能说又臭又长。一直听说过pyenv，但是没有实际使用过。今天Abbey用了一次就完全喜欢上了pyenv。</p>
+<!--more-->
+
+<p>众所周知，因linux各种发行版本不同，系统带的Python版本也不同，像Abbey一直用的是Python2.7，习惯用centos7，但是有时候拿到的centos6，自带的是python2.6，所以每次都要去手动升级到python2.7来，步骤繁琐，容易出错。</p>
+<p>而pyenv解决的就是python不同版本切换的问题。通过简单两三个命令就可以切换到不同版本的Python。</p>
+<p>那么为什么不用virtualenv呢？可能是virtualenv名字太长吧。开玩笑，因为virtualenv每次都需要切换到虚拟环境，使用起来还是比较繁琐的。</p>
+<h2>安装</h2>
+<h3>安装前准备</h3>
+<ol>
+<li>因安装前需要安装好<code>git</code>，因此需要提前安装好<code>git</code>。参考《<a href="https://git-scm.com/book/zh/v2/起步-安装-Git">Git安装教程</a>》</li>
+<li>最好安装一些依赖，避免安装的Python shell无法退格：</li>
+</ol>
+<p><strong> Centos7</strong></p>
+<div class="highlight"><pre>yum -y install zlib\*
+yum install openssl -y
+yum install openssl-devel -y
+yum install sqlite-devel -y`
+yum install readline readline-devel -y
+</pre></div>
+
+
+<p><strong>Ubuntu 16+/Debian 8+</strong></p>
+<div class="highlight"><pre>apt-get install -y zlib1g
+apt-get install -y libffi-devel
+apt-get install -y libssl-dev
+apt-get install -y sqlite3
+apt-get install -y libsqlite3-dev
+apt-get install -y libreadline6
+apt-get install -y libreadline6–dev
+</pre></div>
+
+
+<h3>自动安装</h3>
+<div class="highlight"><pre>curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+</pre></div>
+
+
+<p>运行完之后提示</p>
+<div class="highlight"><pre><span class="n">__WARNING__</span><span class="o">:</span> <span class="n">seems</span> <span class="n">you</span> <span class="n">still</span> <span class="n">have</span> <span class="n">not</span> <span class="n">added</span> <span class="s1">&#39;pyenv&#39;</span> <span class="n">to</span> <span class="n">the</span> <span class="n">load</span> <span class="n">path</span><span class="o">.</span>
+
+<span class="err">#</span> <span class="n">Load</span> <span class="n">pyenv</span> <span class="n">automatically</span> <span class="n">by</span> <span class="n">adding</span>
+<span class="err">#</span> <span class="n">the</span> <span class="n">following</span> <span class="n">to</span> <span class="o">~/.</span><span class="n">bashrc</span><span class="o">:</span>
+
+<span class="n">export</span> <span class="n">PATH</span><span class="o">=</span><span class="s2">&quot;/bin:$PATH&quot;</span>
+<span class="nf">eval</span> <span class="s2">&quot;$(pyenv init -)&quot;</span>
+<span class="nf">eval</span> <span class="s2">&quot;$(pyenv virtualenv-init -)&quot;</span>
+</pre></div>
+
+
+<p>则将后面三行语句添加到<code>~/.bashrc</code>最后面（<strong>不一定是<code>~/.bashrc</code>，具体看安装完后的提示内容</strong>），然后运行</p>
+<div class="highlight"><pre>source ~/.bashrc
+</pre></div>
+
+
+<p>运行：</p>
+<div class="highlight"><pre>pyenv
+</pre></div>
+
+
+<p>提示以下内容说明安装成功</p>
+<div class="highlight"><pre>pyenv 1.2.11
+Usage: pyenv &lt;command&gt; [&lt;args&gt;]
+
+Some useful pyenv commands are:
+   commands    List all available pyenv commands
+   local       Set or show the local application-specific Python version
+   global      Set or show the global Python version
+   shell       Set or show the shell-specific Python version
+   install     Install a Python version using python-build
+   uninstall   Uninstall a specific Python version
+   rehash      Rehash pyenv shims (run this after installing executables)
+   version     Show the current Python version and its origin
+   versions    List all Python versions available to pyenv
+   which       Display the full path to an executable
+   whence      List all Python versions that contain the given executable
+
+See `pyenv help &lt;command&gt;&#39; for information on a specific command.
+For full documentation, see: https://github.com/pyenv/pyenv#readme
+</pre></div>
+
+
+<h2>pyenv常用命令</h2>
+<h4>python配置</h4>
+<ul>
+<li><code>$ pyenv versions</code> -- 查看系统当前安装的python列表</li>
+<li><code>$ pyenv install -v 3.5.1</code> -- 安装python</li>
+<li><code>$ pyenv uninstall 2.7.3</code> -- 卸载python</li>
+<li><code>$ pyenv rehash</code>-- 创建垫片路径（为所有已安装的可执行文件创建 shims，如：<code>~/.pyenv/versions/\*/bin/\*</code>，因此，<strong>每当你增删了 Python 版本或带有可执行文件的包（如 pip）以后，都应该执行一次本命令</strong>）</li>
+</ul>
+<h4>python切换</h4>
+<ul>
+<li><code>$ pyenv global 3.4.0</code>-- 设置全局的 Python 版本，通过将版本号写入 ~/.pyenv/version 文件的方式。</li>
+<li><code>$ pyenv local 2.7.3</code> -- 设置面向程序的本地版本，通过将版本号写入当前目录下的 .python-version 文件的方式。通过这种方式设置的 Python 版本优先级较 global 高。
+pyenv 会从当前目录开始向上逐级查找 .python-version 文件，直到根目录为止。若找不到，就用 global 版本。</li>
+<li><code>$ pyenv shell pypy-2.2.1</code> -- 设置面向 shell 的 Python 版本，通过设置当前 shell 的 PYENV_VERSION 环境变量的方式。这个版本的优先级比 local 和 global 都要高。--unset 参数可以用于取消当前 shell 设定的版本。</li>
+<li><code>$ pyenv shell --unset</code></li>
+</ul>
+<h4>python优先级</h4>
+<p><code>shell &gt; local &gt; global</code></p>
+<h2>使用示例</h2>
+<p>比如Abbey在centos7下，想要用Python3.5进行web开发</p>
+<h3>第一步：pyenv安装Python3.5.1</h3>
+<div class="highlight"><pre>pyenv install -v 3.5.1
+</pre></div>
+
+
+<p>运行之后会自动安装Python3.5.1</p>
+<h3>第二步：运行<code>pyenv rehash</code></h3>
+<div class="highlight"><pre>pyenv rehash
+</pre></div>
+
+
+<h3>第三步：在需要使用Python3.5.1的项目目录切换到Python3.5.1</h3>
+<p>比如，需要使用Python3.5.1的目录是：<code>/root/Web3.5</code>，则在<code>/root/Web3.5</code>目录下运行：</p>
+<div class="highlight"><pre>pyenv local 3.5.1
+</pre></div>
+
+
+<p>运行之后，在<code>/root/Web3.5</code>目录下的Python版本就为3.5.1了，不信在<code>/root/Web3.5</code>下运行：</p>
+<div class="highlight"><pre>python -V
+</pre></div>
+
+
+<p>提示</p>
+<div class="highlight"><pre>Python 3.5.1
+</pre></div>
+
+
+<p>切换到其他目录则不是Python3.5.1。</p>
+<p>使用起来很方便！</p>]]></content>
+  </entry>
+  <entry>
+    <title>【伪正版】XShell+Xftp 6.0版本开启专业版</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/346"/>
+    <id>tag:https://www.abbeyok.com,2019://1.346</id>
+    <published>2019-05-09T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>【伪正版】XShell+Xftp 6.0版本开启专业版</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="Soft" scheme="https://www.abbeyok.com/category/Soft"/>
+    <content type="html"><![CDATA[<p>Abbey习惯在线编辑代码，比如PyOne的代码，都是直接在线上服务器更改，使用Xshell运行网站，使用Xftp+sublime text3编辑代码，但是自从xftp升级到6.0版本之后，只能开2个窗口，这实在是太痛苦了，一直在xftp里面切换目录。于是网上找了XShell和xftp升级专业版的方法。</p>
+<!--more-->
+
+<p>参考：<a href="https://github.com/DoubleLabyrinth/Xmanager-keygen">https://github.com/DoubleLabyrinth/Xmanager-keygen</a></p>
+<p>好处：<strong>无任何破解软件，无需担心病毒</strong>。</p>
+<p>这里简单说一下步骤：</p>
+<ol>
+<li>首先将电脑上已经安装的XShell、Xftp、Xmanager等Netsarang软件都卸载干净</li>
+<li>注册表里面讲Netsarang注册信息删除：
+按<code>Ctrl+R</code>，输入<code>redigit</code>进入注册表编辑器，找到并删除<code>HKEY\_CURRENT\_USER\\Software\\NetSarang</code></li>
+<li>下载并安装XShell和Xftp注册版本（如果需要其他软件自己下载）
+<strong>1）方法1</strong>：通过官网<a href="https://www.netsarang.com/zh">https://www.netsarang.com/zh</a>邮件接收到一个30天有效期的下载链接，点击下载之后不要着急下载，将下载链接的<code>exe</code>前面加一个字母r下载到可注册版本。比如：你获取到的下载链接是：https://cdn.netsarang.net/c3d49915/XmanagerPowerSuite-6.0.0007.exe，那么你就改成https://cdn.netsarang.net/c3d49915/XmanagerPowerSuite-6.0.0007r.exe并下载。
+<strong>2）方法2</strong>：直接下载Abbey已经下载好的：<a href="https://www.lanzous.com/i43097i">XShell点击下载</a>，<a href="https://www.lanzous.com/i4308gb">Xftp点击下载</a>。</li>
+<li><strong>修改并运行<code>Xmanager-keygen.py</code>脚本，获取注册码，然后在安装的时候使用</strong>。<strong>(此步很重要，需要在Python3.5版本以上运行）</strong>
+这个脚本主要修改最后面的参数即可。比如通过上面Abbey提供的版本，__获取Xshell注册码__修改以下内容并运行：
+<code>print(GenerateProductKey( datetime.date(2018, 4, 29), 'Xshell', 6, 0x60))</code>
+__获取Xftp注册码__修改以下内容并运行：
+<code>print(GenerateProductKey( datetime.date(2018, 4, 29), 'Xftp', 6, 0x60))</code>
+其他软件和版本同理。具体修改方法参考以上内容和以下参数</li>
+</ol>
+<div class="highlight"><pre>ProductPublishList = (
+{ &#39;ProductName&#39; : &#39;Xmanager&#39;, &#39;Version&#39; : 2, &#39;PublishDate&#39; : datetime.date(2003, 1, 1) },
+{ &#39;ProductName&#39; : &#39;Xshell&#39;, &#39;Version&#39; : 2, &#39;PublishDate&#39; : datetime.date(2004, 10, 1) },
+
+{ &#39;ProductName&#39; : &#39;Xmanager&#39;, &#39;Version&#39; : 3, &#39;PublishDate&#39; : datetime.date(2007, 1, 1) },
+{ &#39;ProductName&#39; : &#39;Xshell&#39;, &#39;Version&#39; : 3, &#39;PublishDate&#39; : datetime.date(2007, 1, 1) },
+{ &#39;ProductName&#39; : &#39;Xlpd&#39;, &#39;Version&#39; : 3, &#39;PublishDate&#39; : datetime.date(2007, 1, 1) },
+{ &#39;ProductName&#39; : &#39;Xftp&#39;, &#39;Version&#39; : 3, &#39;PublishDate&#39; : datetime.date(2007, 1, 1) },
+{ &#39;ProductName&#39; : &#39;Xmanager Enterprise&#39;, &#39;Version&#39; : 3, &#39;PublishDate&#39; : datetime.date(2007, 1, 1) },
+
+{ &#39;ProductName&#39; : &#39;Xmanager&#39;, &#39;Version&#39; : 4, &#39;PublishDate&#39; : datetime.date(2010, 8, 1) },
+{ &#39;ProductName&#39; : &#39;Xshell&#39;, &#39;Version&#39; : 4, &#39;PublishDate&#39; : datetime.date(2010, 8, 1) },
+{ &#39;ProductName&#39; : &#39;Xlpd&#39;, &#39;Version&#39; : 4, &#39;PublishDate&#39; : datetime.date(2010, 8, 1) },
+{ &#39;ProductName&#39; : &#39;Xftp&#39;, &#39;Version&#39; : 4, &#39;PublishDate&#39; : datetime.date(2010, 8, 1) },
+{ &#39;ProductName&#39; : &#39;Xmanager Enterprise&#39;, &#39;Version&#39; : 4, &#39;PublishDate&#39; : datetime.date(2010, 8, 1) },
+{ &#39;ProductName&#39; : &#39;Xmanager&#39;, &#39;Version&#39; : 5, &#39;PublishDate&#39; : datetime.date(2014, 4, 28) },
+{ &#39;ProductName&#39; : &#39;Xshell&#39;, &#39;Version&#39; : 5, &#39;PublishDate&#39; : datetime.date(2014, 4, 28) },
+{ &#39;ProductName&#39; : &#39;Xlpd&#39;, &#39;Version&#39; : 5, &#39;PublishDate&#39; : datetime.date(2014, 4, 28) },
+{ &#39;ProductName&#39; : &#39;Xftp&#39;, &#39;Version&#39; : 5, &#39;PublishDate&#39; : datetime.date(2014, 4, 28) },
+{ &#39;ProductName&#39; : &#39;Xmanager Enterprise&#39;, &#39;Version&#39; : 5, &#39;PublishDate&#39; : datetime.date(2014, 4, 28) },
+{ &#39;ProductName&#39; : &#39;Xmanager&#39;, &#39;Version&#39; : 6, &#39;PublishDate&#39; : datetime.date(2018, 4, 29) },
+{ &#39;ProductName&#39; : &#39;Xshell&#39;, &#39;Version&#39; : 6, &#39;PublishDate&#39; : datetime.date(2018, 4, 29) },
+{ &#39;ProductName&#39; : &#39;Xshell Plus&#39;, &#39;Version&#39; : 6, &#39;PublishDate&#39; : datetime.date(2018, 4, 29) },
+{ &#39;ProductName&#39; : &#39;Xlpd&#39;, &#39;Version&#39; : 6, &#39;PublishDate&#39; : datetime.date(2018, 4, 29) },
+{ &#39;ProductName&#39; : &#39;Xftp&#39;, &#39;Version&#39; : 6, &#39;PublishDate&#39; : datetime.date(2018, 4, 29) },
+{ &#39;ProductName&#39; : &#39;Xmanager Enterprise&#39;, &#39;Version&#39; : 6, &#39;PublishDate&#39; : datetime.date(2018, 4, 29) }
+)
+</pre></div>
+
+
+<ol>
+<li>安装完之后别忘了加以下内容到<code>C:\\Windows\\System32\\drivers\\etc\\host</code></li>
+</ol>
+<div class="highlight"><pre>127.0.0.1 transact.netsarang.com
+127.0.0.1 update.netsarang.com
+127.0.0.1 www.netsarang.com
+127.0.0.1 www.netsarang.co.kr
+127.0.0.1 sales.netsarang.com
+</pre></div>
+
+
+<p>以上就是完整的破解步骤。</p>]]></content>
+  </entry>
+  <entry>
+    <title>【伪正版】Sublime Text 3截止2019.04.08最新版本破解 3207</title>
+    <link rel="alternate" type="text/html" href="https://www.abbeyok.com/archives/337"/>
+    <id>tag:https://www.abbeyok.com,2019://1.337</id>
+    <published>2019-04-08T00:00:00Z</published>
+    <updated>2019-08-13T00:00:00Z</updated>
+    <summary>【伪正版】Sublime Text 3截止2019.04.08最新版本破解 3207</summary>
+    <author>
+    <name>Abbey</name>
+    <uri>https://www.abbeyok.com</uri>
+    </author>
+    <category term="Soft" scheme="https://www.abbeyok.com/category/Soft"/>
+    <content type="html"><![CDATA[<p>Sublime Text 3最近更新了版本，最新版本：3207，之前的license无效了，然后在GitHub找到最新的破解方法</p>
+<p><img alt="" src="/static/upload/2019/05/0074MymAly1g1viyo9vm4j30bc0673yn.jpg" /></p>
+<p>本方法适用：<strong>Sublime Text Version 3.2.1, Build 3207</strong></p>
+<h2>安装sublime text3</h2>
+<p>下载地址：<a href="https://www.sublimetext.com/3">https://www.sublimetext.com/3</a></p>
+<p>根据你系统的版本下载安装</p>
+<h2>修改sublime text 3 exe程序</h2>
+<ol>
+<li>进入：<a href="https://hexed.it/">https://hexed.it/</a></li>
+<li>点击“Open file”，然后选择“sublime_text.exe”（ps. sublime_text.exe应该在：<em>C:\Program Files\Sublime Text 3</em>）</li>
+<li>选择右侧的“Search”，然后在“Search for”框输入“97 94 0D”，点击“Search Now”
+<img alt="" src="/static/upload/2019/05/0074MymAly1g1vj5f6hlhj30b30l8dhe.jpg" /></li>
+<li>下方出现一个搜索结果</li>
+<li>点击搜索结果，修改搜索结果“97 94 0D”为“00 00 00”</li>
+<li>点击“Export”把修改好的exe程序下载并替换原来的sublime_text.exe</li>
+<li>打开sublime text3 （如果windows提示危险，继续运行），然后Help-Enter License-输入下方的license</li>
+</ol>
+<div class="highlight"><pre>----- BEGIN LICENSE -----
+TwitterInc
+200 User License
+EA7E-890007
+1D77F72E 390CDD93 4DCBA022 FAF60790
+61AA12C0 A37081C5 D0316412 4584D136
+94D7F7D4 95BC8C1C 527DA828 560BB037
+D1EDDD8C AE7B379F 50C9D69D B35179EF
+2FE898C4 8E4277A8 555CE714 E1FB0E43
+D5D52613 C3D12E98 BC49967F 7652EED2
+9D2D2E61 67610860 6D338B72 5CF95C69
+E36B85CC 84991F19 7575D828 470A92AB
+------ END LICENSE ------
+</pre></div>
+
+
+<ol>
+<li>最后，为了防止sublime text3检测，添加以下内容到你的host</li>
+</ol>
+<div class="highlight"><pre>127.0.0.1 www.sublimetext.com
+127.0.0.1 sublimetext.com
+127.0.0.1 sublimehq.com
+127.0.0.1 telemetry.sublimehq.com
+127.0.0.1 license.sublimehq.com
+127.0.0.1 45.55.255.55
+127.0.0.1 45.55.41.223
+0.0.0.0 license.sublimehq.com
+0.0.0.0 45.55.255.55
+0.0.0.0 45.55.41.223
+</pre></div>
+
+
+<p>ps. windows的hosts文件大致在：<strong><em>C:\Windows\System32\drivers\etc</em></strong></p>
+<p>至此，sublime text 3207破解完毕</p>]]></content>
+  </entry>
+</feed>

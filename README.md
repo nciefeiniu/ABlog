@@ -67,7 +67,7 @@ bash install.sh
 
 安装过程中，会要求输入：
 
-- 数据**储存**方式：`MySQL`或`sqlite`
+- 数据**储存**方式：`MySQL`或`sqlite`或 `postgresql`
     - 如果是`MySQL`，会继续要求输入：MySQL用户名、密码、数据库名。_ps. 请提前安装MySQL_
     - 如果是`sqlite`，会使用sqlite储存数据
 - 数据**缓存**方式：`redis`和`sample`

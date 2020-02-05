@@ -9,7 +9,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 
-
     POSTS_PER_PAGE = 10
     ADMIN_POSTS_PER_PAGE = 20
     ACHIVES_POSTS_PER_PAGE = 20
@@ -19,36 +18,38 @@ class Config(object):
 
     UPLOAD_PATH = './app/static/upload/'
 
-    #数据储存方式mysql/sqlite
-    STORE_METHOD='mysql'
+    # 数据储存方式mysql/sqlite/postgresql
+    STORE_METHOD = 'postgresql'
 
     # 数据库配置
-    MYSQL_USER = 'mysql_user'
-    MYSQL_PASSWORD = 'mysql_passwd'
-    MYSQL_DB = 'mysql_db'
-    MYSQL_DATABASE_CHARSET='utf8mb4'
+    DB_USER = 'postgres'
+    DB_PASSWORD = ''
+    DB_HOST = '192.168.3.76'
+    DB_PORT = 5432  # 3306/5432
+    DB_NAME = 'mydb'
+    MYSQL_DATABASE_CHARSET = 'utf8mb4'
 
     # 博客信息
     # 管理员姓名
-    ADMIN_NAME = 'Abbey'
+    ADMIN_NAME = 'nicefeiniu'
     # 登录密码
-    ADMIN_PASSWORD = 'Admin'
+    ADMIN_PASSWORD = '123456'
     # 博客名
-    SITE_NAME = '一个人的公交'
+    SITE_NAME = '一只大肥牛'
     # 博客标题
-    SITE_TITLE = 'My Blog'
+    SITE_TITLE = 'cow66的博客'
     # 管理员简介
-    ADMIN_PROFILE = '数据分析兼职Python开发'
-    #管理员邮箱
-    ADMIN_MAIL = 'abbeyok@gmail.com'
+    ADMIN_PROFILE = '我是一只大肥牛'
+    # 管理员邮箱
+    ADMIN_MAIL = 'nicefeiniu@foxmail.com'
 
     # RSS站点信息
     # 站点协议
     WEB_PROTOCOL = 'https'
     # 站点域名
-    WEB_URL = 'www.abbeyok.com'
+    WEB_URL = 'blog.cow66.cn'
     # 站点创建时间
-    WEB_START_TIME = '2018-06-05'
+    WEB_START_TIME = '2020-02-02'
     # 显示条数
     RSS_COUNTS = 10
 
@@ -62,9 +63,9 @@ class Config(object):
     CACHE_REDIS_DB = '0'
     CACHE_REDIS_PASSWORD = ''
 
-    #payjs配置
-    PAYJS_MCHID='' #payjs商户号
-    PAYJS_KEY='' #payjs密钥
+    # payjs配置
+    PAYJS_MCHID = ''  # payjs商户号
+    PAYJS_KEY = ''  # payjs密钥
 
     @staticmethod
     def init_app(app):
@@ -72,38 +73,74 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
-    if Config.STORE_METHOD=='mysql':
-        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
-        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    if Config.STORE_METHOD == 'mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                                password=Config.DB_PASSWORD,
+                                                                                                db=Config.DB_NAME,
+                                                                                                host=Config.DB_HOST,
+                                                                                                port=Config.DB_PORT)
+    elif Config.STORE_METHOD == 'postgresql':
+        SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                             password=Config.DB_PASSWORD,
+                                                                                             db=Config.DB_NAME,
+                                                                                             host=Config.DB_HOST,
+                                                                                             port=Config.DB_PORT)
     else:
-        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     DEBUG = True
 
 
 class TestingConfig(Config):
-    if Config.STORE_METHOD=='mysql':
-        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
-        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    if Config.STORE_METHOD == 'mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                                password=Config.DB_PASSWORD,
+                                                                                                db=Config.DB_NAME,
+                                                                                                host=Config.DB_HOST,
+                                                                                                port=Config.DB_PORT)
+    elif Config.STORE_METHOD == 'postgresql':
+        SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                             password=Config.DB_PASSWORD,
+                                                                                             db=Config.DB_NAME,
+                                                                                             host=Config.DB_HOST,
+                                                                                             port=Config.DB_PORT)
     else:
-        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     TESTING = True
 
 
 class ProductionConfig(Config):
-    if Config.STORE_METHOD=='mysql':
-        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
-        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    if Config.STORE_METHOD == 'mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                                password=Config.DB_PASSWORD,
+                                                                                                db=Config.DB_NAME,
+                                                                                                host=Config.DB_HOST,
+                                                                                                port=Config.DB_PORT)
+    elif Config.STORE_METHOD == 'postgresql':
+        SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                             password=Config.DB_PASSWORD,
+                                                                                             db=Config.DB_NAME,
+                                                                                             host=Config.DB_HOST,
+                                                                                             port=Config.DB_PORT)
     else:
-        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     DEBUG = False
 
 
 class DockerConfig(ProductionConfig):
-    if Config.STORE_METHOD=='mysql':
-        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@localhost:3306/{db}'.format(user=Config.MYSQL_USER,
-        password=Config.MYSQL_PASSWORD,db=Config.MYSQL_DB)
+    if Config.STORE_METHOD == 'mysql':
+        SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                                password=Config.DB_PASSWORD,
+                                                                                                db=Config.DB_NAME,
+                                                                                                host=Config.DB_HOST,
+                                                                                                port=Config.DB_PORT)
+    elif Config.STORE_METHOD == 'postgresql':
+        SQLALCHEMY_DATABASE_URI = 'postgresql://{user}:{password}@{host}:{port}/{db}'.format(user=Config.DB_USER,
+                                                                                             password=Config.DB_PASSWORD,
+                                                                                             db=Config.DB_NAME,
+                                                                                             host=Config.DB_HOST,
+                                                                                             port=Config.DB_PORT)
     else:
-        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     DEBUG = False
     CACHE_REDIS_HOST = 'cache'
 

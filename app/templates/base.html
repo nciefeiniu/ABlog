@@ -8,7 +8,7 @@
     <link rel="alternate" href="{{url_for('main.rss')}}" title="{% if admin %}{{ admin.site_title }}{% else %}我的博客{% endif %}" type="application/atom+xml">
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1" />
     <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
-    <meta name="description" content="{% if post %}{{ post.body | cut_desc_seo }}{% else %}我是一个大肥牛的博客首页{% endif %}" />
+    <meta name="description" content="{% if post %}{{ post.category }} - {{ post.body | cut_desc_seo }}{% else %}我是一个大肥牛的博客首页{% endif %}" />
     {% block styles %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css') }}">
     <link media="(max-width: 960px)" href="{{ url_for('static', filename='css/mobile.css') }}" rel="stylesheet">

@@ -14,7 +14,7 @@
     <meta property="og:title" content="{% if post %}{{ post.title }}{% else %}首页{% endif %} - 一只大肥牛的博客" />
     <meta property="og:description" content="{% if post %}{{ post.category }} - {{ post.body | cut_desc_seo }}{% else %}我是一个大肥牛的博客首页{% endif %}" />
     <meta property="og:site_name" content="cow66" />
-    <meta property="article:section" content="{% if post %}{{ post.category }}{% elif %}首页{% endif %}" />
+    <meta property="article:section" content="{% if post %}{{ post.category }}{% else %}首页{% endif %}" />
     <meta property="article:published_time" content="{% if post %}{{ post.datetime }}{% elif %}2020-02-02 22:22:22{% endif %}" />
     {% block styles %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/blog.css') }}">

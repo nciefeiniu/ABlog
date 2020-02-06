@@ -78,6 +78,14 @@ def cut_desc(text):
     s=re.sub('<.*?>','',s)[:50]+'...'
     return s
 
+
+@app.template_filter()
+def cut_desc_seo(text):
+    s = text.split('<!--more-->')[0]
+    s = re.sub('<.*?>', '', s)[:274] + '...'
+    return s
+
+
 @app.template_filter()
 def cut_title(text):
     s=text.split('<!--more-->')[0]
